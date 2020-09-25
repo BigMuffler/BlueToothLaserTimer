@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Running_Timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="0:00:000"
+        android:textColor="@android:color/black"
+        android:textSize="60sp" />
+
+    <Button
+
+        android:id="@+id/btnStop"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_below="@+id/Running_Timer"
+        android:layout_marginTop="-444dp"
+        android:text="Stop" />
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Running_Timer"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="150dp"
+        android:text="Start" />
+
+    <Button
+        android:id="@+id/btnReset"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/Running_Timer"
+        android:layout_marginBottom="146dp"
+        android:text="reset" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@+id/Running_Timer"
+        android:layout_marginTop="-222dp"
+        android:layout_marginBottom="-2dp"
+        android:text="Connect" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnStart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-100dp"
+        android:layout_marginBottom="-32dp"
+         />
+
+
+</RelativeLayout>

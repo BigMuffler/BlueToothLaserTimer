@@ -1,1 +1,2 @@
 # BlueToothLaserTimer
+Android Application that is built for timing sprints. Application conencts to an Arduino UNO via bluetooth module HC-05. Timer begins when user hits start and ends when photosensor on arduino goes low. 
