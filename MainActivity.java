@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 
     Button btnStart, btnReset, btnStop, btnConnect;
     TextView txtTimer;
-    TextView textView;
+    TextView textView,textView2;
     private final String DEVICE_ADDRESS="98:D3:11:FC:52:5E";
     Handler customHandler = new Handler();
 
@@ -80,17 +80,15 @@ public class MainActivity extends Activity {
         btnConnect = (Button) findViewById(R.id.btnConnect);
         txtTimer = (TextView) findViewById(R.id.Running_Timer);
         textView = (TextView) findViewById(R.id.textView1);
+        textView2 = (TextView) findViewById(R.id.textView2);
 
 
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSend(view);
-                beginListenForData();
                 startTime = SystemClock.uptimeMillis();
                 customHandler.postDelayed(updateTimerThread, 0);
-
-
+                beginListenForData();
             }
         });
 
@@ -115,6 +113,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 onStart(view);
+                checkAlignment();
             }
         });
 
@@ -210,9 +209,74 @@ public class MainActivity extends Activity {
                                 handler.post(new Runnable() {
                                     public void run()
                                     {
-                                        textView.append(string);
+                                        return;
                                     }
                             });
+
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        stopThread = true;
+                    }
+                }
+            }
+        });
+
+        thread.start();
+    }
+
+    void checkAlignment() //not working
+    {
+        final Handler handler = new Handler();
+        stopThread = false;
+        buffer = new byte[1024];
+
+        Thread thread  = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                while(!Thread.currentThread().isInterrupted() && !stopThread)
+                {
+                    try
+                    {
+                        int byteCount = inputStream.available();
+                        if(byteCount > 0)
+                        {
+                            byte[] rawBytes = new byte[byteCount];
+                            inputStream.read(rawBytes);
+                            final String string=new String(rawBytes,"UTF-8");
+                            if (string.contains("A"))
+                            {
+                                handler.post(new Runnable() {
+                                    public void run()
+                                    {
+                                        int numberofAligned = 1;
+                                        if (numberofAligned == 1)
+                                        {
+                                            textView2.setText("Aligned"); //second thread for alignment
+                                            numberofAligned++;
+                                        }
+                                        return;
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                handler.post(new Runnable() {
+                                    public void run()
+                                    {
+                                        int numberofNotAligned = 1;
+                                        if (numberofNotAligned == 1)
+                                        {
+                                            textView2.setText("Not Aligned");
+                                            numberofNotAligned++;
+                                        }
+                                        return;
+                                    }
+                                });
+                            }
+
                         }
                     }
                     catch (IOException ex)
@@ -234,19 +298,8 @@ public class MainActivity extends Activity {
 
                 textView.append("\nConnection Opened!\n");
             }
-
         }
     }
-    public void onSend(View view) {
 
-        String string = "L";
-        string.concat("\n");
-        try {
-            outputStream.write(string.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        textView.append("Sent Data:"+string+"\n");
-    }
 
 }

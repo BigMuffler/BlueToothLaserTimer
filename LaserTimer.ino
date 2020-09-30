@@ -5,8 +5,6 @@
 
 int txPin = 1;
 int rxPin =0;
-String data;
-int written = 1;
 
 SoftwareSerial BlueToothConnect(rxPin,txPin);
 void setup() {
@@ -24,22 +22,18 @@ void loop() {
   int detected = digitalRead(DETECT);
 
   digitalWrite(ACTION,HIGH);
-  
-    data = BlueToothConnect.read();
 
-     if(detected == HIGH)
-      {
-        digitalWrite(DETECT, HIGH);
-       
-      }
-    else
-      {   
-        digitalWrite(DETECT, LOW);
-        BlueToothConnect.write("s");          
-        Serial.println("Not");
-        written++;
-
-      } 
+  if(detected == HIGH)
+    {
+      digitalWrite(DETECT, HIGH);
+      BlueToothConnect.write("A"); 
+    }
+   if(detected == LOW)
+    {   
+      digitalWrite(DETECT, LOW);
+      BlueToothConnect.write("s");       
+           
+    } 
 
   delay(200);
 }
